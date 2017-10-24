@@ -4,16 +4,16 @@ Our goal is to use clustering techniques and visualization to analyze and presen
 
 ## Contributors
 
-+Alex Wu
-+Andrew Zhang
-+Andy Vu Hoang
-+Trisha Dumayas
-+Victoria Hoang
++ Alex Wu
++ Andrew Zhang
++ Andy Vu Hoang
++ Trisha Dumayas
++ Victoria Hoang
 
 ## To-Do List
 
-+Exploratory Data Analysis
-+Visualization With Animated Maps
-+Analyze Data by Location
-+...And More?
++ Exploratory Data Analysis
++ Visualization With Animated Maps
++ Analyze Data by Location
++ ...And More?
 
