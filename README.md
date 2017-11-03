@@ -15,5 +15,6 @@ Our goal is to use clustering techniques and visualization to analyze and presen
 + Exploratory Data Analysis
 + Visualization With Animated Maps
 + Analyze Data by Location
-+ ...And More?
++ Time Series Analysis on Global Warming
++ Possibly More?
 
