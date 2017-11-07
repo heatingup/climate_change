@@ -1,0 +1,27 @@
+---
+title: "Climate change"
+author: "Alexander Wu, and Vicky Hoang"
+geometry: margin=0.75in
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache=TRUE,
+                      warning = FALSE)
+# library(dplyr)
+library(ggplot2)
+library(pander) # nice formatting
+library(stringr) # manipulating strings
+library(lubridate) # working with date objects
+```
+
+## Importing data
+
+```{r}
+fire <- read.csv("data/GlobalTemperatures.csv", header = TRUE, stringsAsFactors = FALSE)
+fire$dt <- as.Date(fire$dt)
+dim(fire)
+range <- 3000:3192
+plot(fire$dt[range], fire$LandAverageTemperature[range])
+```
