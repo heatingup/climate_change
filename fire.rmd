@@ -1,6 +1,6 @@
 ---
 title: "Climate change"
-author: "Alexander Wu, and Vicky Hoang"
+author: "Alexander Wu, Andy Vu Hoang, and Vicky Hoang"
 geometry: margin=0.75in
 output: pdf_document
 ---
@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE, cache=TRUE,
                       warning = FALSE)
 # library(dplyr)
 library(ggplot2)
+library(plotly)
+library(ggfortify) # to plot ts with ggplot2
 library(pander) # nice formatting
 library(stringr) # manipulating strings
 library(lubridate) # working with date objects
@@ -25,3 +27,20 @@ dim(fire)
 range <- 3000:3192
 plot(fire$dt[range], fire$LandAverageTemperature[range])
 ```
+
+## Making a time series with average land temperature
+```{r}
+temp <- fire$LandAverageTemperature
+sum(is.na(temp))
+which(is.na(temp))
+# Selecting from January 1753 and on so that there's no NAs
+temp.ts <- ts(temp[37:length(temp)], start=c(1753, 1), frequency=12)
+time.plot <- autoplot(temp.ts, main="Monthly Average Temperature in Celsius", ts.colour="firebrick",
+                      size=1.5)
+ggplotly(time.plot)
+# We have a bunch of points, plotting trend instead
+trend.plot <- autoplot(decompose(temp.ts)$trend, main="Average Temperature Trend", ts.colour="goldenrod")
+ggplotly(trend.plot)
+# Gotta figure out how to overlay these two plots
+```
+
