@@ -8,7 +8,7 @@ Our goal is to use clustering techniques and visualization to analyze and presen
 + Andrew Zhang
 + Andy Vu Hoang
 + Trisha Dumayas
-+ Victoria Hoang
++ Vicky Hoang
 
 ## To-Do List
 
