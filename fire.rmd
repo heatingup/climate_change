@@ -36,11 +36,20 @@ which(is.na(temp))
 # Selecting from January 1753 and on so that there's no NAs
 temp.ts <- ts(temp[37:length(temp)], start=c(1753, 1), frequency=12)
 time.plot <- autoplot(temp.ts, main="Monthly Average Temperature in Celsius", ts.colour="firebrick",
-                      size=1.5)
+                      size=1)
 ggplotly(time.plot)
 # We have a bunch of points, plotting trend instead
 trend.plot <- autoplot(decompose(temp.ts)$trend, main="Average Temperature Trend", ts.colour="goldenrod")
 ggplotly(trend.plot)
 # Gotta figure out how to overlay these two plots
+```
+
+## Making a time series from 1950 and on
+```{r}
+modern.ts <- ts(temp[2401:length(temp)], start=c(1950,1), freq=12)
+trend.mod <- decompose(modern.ts)$trend
+colors <- c("firebrick", "yellow1")
+autoplot(ts(cbind(modern.ts, trend.mod), start=c(1950, 1), freq=12), facets=FALSE, size=1) +
+  scale_color_manual(values=colors)
 ```
 
