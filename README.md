@@ -1,6 +1,6 @@
 # Heating Up
 
-Our goal is to use clustering techniques and visualization to analyze and present global warming data in a more detailed manner than just "the world is getting hot."
+Our goal is to use time series analysis to quantify the effects of global warming and predict future temperatures.
 
 ## Contributors
 
@@ -11,8 +11,5 @@ Our goal is to use clustering techniques and visualization to analyze and presen
 ## To-Do List
 
 + Exploratory Data Analysis
-+ Visualization With Animated Maps
-+ Analyze Data by Location
 + Time Series Analysis on Global Warming
-+ Possibly More?
 
