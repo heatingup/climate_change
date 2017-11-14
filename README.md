@@ -5,9 +5,7 @@ Our goal is to use clustering techniques and visualization to analyze and presen
 ## Contributors
 
 + Alex Wu
-+ Andrew Zhang
 + Andy Vu Hoang
-+ Trisha Dumayas
 + Vicky Hoang
 
 ## To-Do List
