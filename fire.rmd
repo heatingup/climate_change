@@ -16,6 +16,8 @@ library(ggfortify) # to plot ts with ggplot2
 library(pander) # nice formatting
 library(stringr) # manipulating strings
 library(lubridate) # working with date objects
+library(MASS) # for stats stuff
+library(tseries) # time series stuff
 ```
 
 ## Importing data
@@ -24,8 +26,6 @@ library(lubridate) # working with date objects
 fire <- read.csv("data/GlobalTemperatures.csv", header = TRUE, stringsAsFactors = FALSE)
 fire$dt <- as.Date(fire$dt)
 dim(fire)
-range <- 3000:3192
-plot(fire$dt[range], fire$LandAverageTemperature[range])
 ```
 
 ## Making a time series with average land temperature
@@ -41,7 +41,6 @@ ggplotly(time.plot)
 # We have a bunch of points, plotting trend instead
 trend.plot <- autoplot(decompose(temp.ts)$trend, main="Average Temperature Trend", ts.colour="goldenrod")
 ggplotly(trend.plot)
-# Gotta figure out how to overlay these two plots
 ```
 
 ## Making a time series from 1950 and on
@@ -51,5 +50,41 @@ trend.mod <- decompose(modern.ts)$trend
 colors <- c("firebrick", "yellow1")
 autoplot(ts(cbind(modern.ts, trend.mod), start=c(1950, 1), freq=12), facets=FALSE, size=1) +
   scale_color_manual(values=colors)
+autoplot(trend.mod, main="Average Temperature Trend in Celsius", ts.colour="yellow1", size=1.5)
+```
+
+## Time Series Analysis
+
+#### Box Cox Transform
+```{r}
+# Currently, data is clearly not stationary since it trends upwards
+# Testing to see if data needs transformation due to non-constant variance
+bcTransform <- boxcox(modern.ts ~ as.numeric(1:length(modern.ts)))
+lambda <- bcTransform$x[which(bcTransform$y==max(bcTransform$y))]
+temp.tr <- (1/0.7)*(modern.ts^0.7-1)
+```
+
+#### Differencing
+```{r}
+# When variance goes up after differencing, I've differenced too much
+var(temp.tr)
+d.temp.tr <- diff(temp.tr, lag=1)
+var(d.temp.tr)
+d.12.temp.tr <- diff(d.temp.tr, lag=12)
+var(d.12.temp.tr)
+dd.12.temp.tr <- diff(d.12.temp.tr, lag=1)
+var(dd.12.temp.tr)
+# Variance rose, so no longer need to do any differencing, d.12.temp.tr is what I want
+# Statistical tests for stationarity
+Box.test(d.12.temp.tr)
+adf.test(d.12.temp.tr)
+```
+
+#### Diagnostics
+```{r}
+acf(d.12.temp.tr, lag.max=30)
+# significant autocorrelation at lags 1, 11, 12, and 13
+pacf(d.12.temp.tr, lag.max=30)
+# partial autocorrelation decays, then increases again at lag 11, switches signs at 12, then decays
 ```
 
