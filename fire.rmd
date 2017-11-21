@@ -45,7 +45,7 @@ ggplotly(trend.plot)
 
 ## Making a time series from 1950 and on
 ```{r}
-modern.ts <- ts(temp[2401:length(temp)], start=c(1950,1), freq=12)
+modern.ts <- ts(temp[2401:(length(temp)-12)], start=c(1950,1), freq=12) # excluding last 12 obs to later use to verify model
 trend.mod <- decompose(modern.ts)$trend
 colors <- c("firebrick", "yellow1")
 autoplot(ts(cbind(modern.ts, trend.mod), start=c(1950, 1), freq=12), facets=FALSE, size=1) +
@@ -60,7 +60,7 @@ autoplot(trend.mod, main="Average Temperature Trend in Celsius", ts.colour="yell
 # Currently, data is clearly not stationary since it trends upwards
 # Testing to see if data needs transformation due to non-constant variance
 bcTransform <- boxcox(modern.ts ~ as.numeric(1:length(modern.ts)))
-lambda <- bcTransform$x[which(bcTransform$y==max(bcTransform$y))]
+lambda <- bcTransform$x[which(bcTransform$y==max(bcTransform$y))] # lambda=0.707070...
 temp.tr <- (1/0.7)*(modern.ts^0.7-1)
 ```
 
@@ -75,9 +75,11 @@ var(d.12.temp.tr)
 dd.12.temp.tr <- diff(d.12.temp.tr, lag=1)
 var(dd.12.temp.tr)
 # Variance rose, so no longer need to do any differencing, d.12.temp.tr is what I want
+# SARIMA model with s=12, d=1, D=1
+
 # Statistical tests for stationarity
-Box.test(d.12.temp.tr)
-adf.test(d.12.temp.tr)
+Box.test(d.12.temp.tr) # stationary
+adf.test(d.12.temp.tr) # stationary
 ```
 
 #### Diagnostics
